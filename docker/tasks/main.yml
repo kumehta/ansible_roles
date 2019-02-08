@@ -1,0 +1,5 @@
+---
+# tasks file for docker
+
+- name: General Setup
+  include_tasks: general.yml

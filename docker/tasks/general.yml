@@ -1,0 +1,23 @@
+---
+- name: Creating Directories
+  file:
+    state: directory
+    path: "{{ item.key }}"
+    owner: "{{ item.value.owner }}"
+    group: "{{ item.value.group }}"
+    mode: "{{ item.value.mode }}"
+  with_dict: "{{ docker_directories }}"  
+
+- name: Creating docker group
+  group:
+    name: "{{ item.name }}"
+    state: 'present'
+    gid: "{{ item.gid }}"
+  loop: "{{ docker_group }}"
+
+- name: Creating docker user
+  user:
+    name: "{{ item.name }}"
+    group: "{{ item.groups }}"
+    uid: "{{ item.uid }}"
+  loop: "{{ docker_user }}"

@@ -1,0 +1,32 @@
+---
+# vars file for docker
+
+docker_directories:
+  /app:
+    owner: root
+    group: root
+    mode: "u=rwx,g=rx,o=rx"
+  /app/docker:
+    owner: docker
+    group: docker
+    mode: "u=rwx,g=r,o=r"
+  /download:
+    owner: root
+    group: root
+    mode: "u=rwx,g=rx,o=rx"
+
+docker_group:
+  - name: docker
+    gid: 4002
+
+docker_user:
+  - name: docker
+    uid: 4001
+    home: /app/docker
+    groups: docker     
+
+#docker_package_url: 
+#docker_home: /app/docker
+#docker_install_dir: /download
+#docker_compose_url: 
+#docker_compose_dir: /usr/bin
