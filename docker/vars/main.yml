@@ -25,8 +25,8 @@ docker_user:
     home: /app/docker
     groups: docker     
 
-#docker_package_url: 
-#docker_home: /app/docker
-#docker_install_dir: /download
-#docker_compose_url: 
-#docker_compose_dir: /usr/bin
+docker_package_url: https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.09.1-3.el7.x86_64.rpm 
+docker_home: /app/docker
+docker_download_dir: /download
+docker_compose_url: https://github.com/docker/compose/releases/download/1.24.0-rc1/docker-compose-Linux-x86_64
+docker_compose_dir: /usr/bin

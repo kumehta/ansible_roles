@@ -4,15 +4,15 @@
 - name: Downloading docker rpm package
   get_url:
     url: "{{docker_package_url}}"
-    dest: "{{docker_install_dir}}"
+    dest: "{{docker_download_dir}}"
     mode: 0644
 
 - name: Install docker rpm
-  command: rpm -ivh /docker/*.rpm
+  command: rpm -ivh /download/*.rpm
 
 - name: Install docker-compose
   get_url:
-    url: 
+    url: "{{ doker_compose_url}}"
     dest: "{{docker_compose_dir}}"
     mode: 0755
 
