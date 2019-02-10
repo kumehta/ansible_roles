@@ -1,0 +1,18 @@
+---
+
+- name: Edit docker.service file
+  replace:
+    path: /usr/lib/systemd/system/docker.service
+    regexp: "^ExecStart=/usr/bin/dockerd"
+    replace: "ExecStart=/usr/bin/dockerd -g {{ docker_home_dir }}"
+    backup: yes
+
+- name: Add ports in firewall
+   command: firewall-cmd --add-port={{ item }} --permanent
+  loop: "{{ docker_firewall_ports }}"
+
+- name: Reload firewall
+  command: firewall-cmd --reload
+
+- name: Enable Docker service
+  command: systemctl enable docker

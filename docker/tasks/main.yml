@@ -3,3 +3,9 @@
 
 - name: General Setup
   include_tasks: general.yml
+
+- name: Install docker
+  include_tasks: install.yml
+
+- name: Configure Docker Installation
+  include_tasks: configure.yml
