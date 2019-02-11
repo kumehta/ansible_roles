@@ -1,2 +1,32 @@
 ---
 # vars file for kibana
+
+kibana_directories:
+  /app:
+    owner: root
+    group: root
+    mode: 0755
+  /app/kibana:
+    owner: kibana
+    group: kibana
+    mode: 0711
+  /download:
+    owner: root
+    group: root
+    mode: 0755
+
+kibana_user:
+  - name: kibana
+    home: /app/kibana
+    group: kibana
+    uid: 4002
+
+kibana_group:
+  - name: kibana
+    gid: 4001
+
+kibana_packages_url:
+  -
+  -
+
+kibana_config_file: /etc/kibana/kibana.yml

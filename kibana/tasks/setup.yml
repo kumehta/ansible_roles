@@ -1,0 +1,24 @@
+---
+
+- name: Setup group 'kibana'
+  group:
+    name: {{ item.name }}
+    gid: {{ item.gid }}
+  loop: {{ kibana_group }}
+
+- name: Setup user 'kibana'
+  user:
+    name: {{ item.name }}
+    home: {{ item.home }}
+    groups: {{ item.group }}
+    uid: {{ item.uid }}
+  loop: {{ kibana_user }}
+
+- name: Setup Directories for Kibana Installation
+   file:
+     state: directory
+     path: "{{ item.key }}"
+     owner: "{{ item.value.owner }}"
+     group: "{{ item.value.group }}"
+     mode: "{{ item.value.mode }}"
+   with_dict: "{{ kibana_directories }}"  

@@ -1,2 +1,5 @@
 ---
 # tasks file for kibana
+
+- name: Setup Directories and User/Group for Installation of kibana
+  include_tasks: setup.yml
