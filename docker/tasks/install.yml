@@ -9,17 +9,21 @@
       - docker-engine
     state: absent
 
-- name: Downloading docker rpm package
+- name: Downloading required package
   get_url:
-    url: "{{docker_package_url}}"
+    url: "{{ item }}"
     dest: "{{docker_download_dir}}"
     mode: 0644
+  loop: "{{ docker_packages_url }}"
 
-- name: Install docker rpm
-  command: rpm -ivh /download/*.rpm
+- name: Installing Dependencies
+  command: "yum install -y {{ item }}"
+  args:
+    chdir: /download
+  loop: "{{ docker_packages }}"
 
 - name: Install docker-compose
   get_url:
-    url: "{{ doker_compose_url}}"
+    url: "{{ docker_compose_url}}"
     dest: "{{docker_compose_dir}}"
     mode: 0755

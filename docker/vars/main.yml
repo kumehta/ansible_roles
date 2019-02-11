@@ -25,7 +25,14 @@ docker_user:
     home: /app/docker
     groups: docker
 
-docker_package_url: https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.09.1-3.el7.x86_64.rpm
+docker_packages_url: 
+  - http://mirror.centos.org/centos/7/extras/x86_64/Packages/container-selinux-2.68-1.el7.noarch.rpm
+  - https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.06.1.ce-3.el7.x86_64.rpm
+
+docker_packages:
+  - container-selinux-2.68-1.el7.noarch.rpm
+  - docker-ce-18.06.1.ce-3.el7.x86_64.rpm
+
 docker_home_dir: /app/docker
 docker_download_dir: /download
 docker_compose_url: https://github.com/docker/compose/releases/download/1.24.0-rc1/docker-compose-Linux-x86_64

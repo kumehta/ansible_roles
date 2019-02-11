@@ -8,4 +8,4 @@
   include_tasks: install.yml
 
 - name: Configure Docker Installation
-  include_tasks: configure.yml
+  include_tasks: config.yml

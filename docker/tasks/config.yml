@@ -5,14 +5,35 @@
     path: /usr/lib/systemd/system/docker.service
     regexp: "^ExecStart=/usr/bin/dockerd"
     replace: "ExecStart=/usr/bin/dockerd -g {{ docker_home_dir }}"
-    backup: yes
+    owner: root
+    group : root
+    mode: 0644
+
+- name: Check Firewalld is installed or not
+  yum:
+    name: firewalld
+    state: present
+
+- name: Ensure Firewalld is running
+  service:
+    name: firewalld
+    state: started
+    enabled: yes
 
 - name: Add ports in firewall
-   command: firewall-cmd --add-port={{ item }} --permanent
+  command: "firewall-cmd --add-port={{ item }} --permanent"
   loop: "{{ docker_firewall_ports }}"
 
 - name: Reload firewall
   command: firewall-cmd --reload
 
 - name: Enable Docker service
-  command: systemctl enable docker
+  command: "{{ item }}"
+  with_items:
+    - systemctl daemon-reload
+    - systemctl enable docker
+
+- name: Start Docker Service
+  service:
+    name: docker
+    state: restarted 
