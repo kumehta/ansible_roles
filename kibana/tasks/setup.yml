@@ -15,10 +15,10 @@
   loop: {{ kibana_user }}
 
 - name: Setup Directories for Kibana Installation
-   file:
-     state: directory
-     path: "{{ item.key }}"
-     owner: "{{ item.value.owner }}"
-     group: "{{ item.value.group }}"
-     mode: "{{ item.value.mode }}"
-   with_dict: "{{ kibana_directories }}"  
+  file:
+    state: directory
+    path: "{{ item.key }}"
+    owner: "{{ item.value.owner }}"
+    group: "{{ item.value.group }}"
+    mode: "{{ item.value.mode }}"
+  with_dict: "{{ kibana_directories }}"  
