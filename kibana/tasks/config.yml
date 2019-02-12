@@ -1,0 +1,65 @@
+---
+
+- name: Ensure kibana config file is present
+  file:
+     path: /etc/kibana/kibana.yml
+     group: root
+     owner: root
+     ensure: present
+     mode: 0644
+
+- name:  Patch kibana.yml for 'server.port'
+  replace:
+    path: "{{ kibana::config::configfile }}"
+    regexp: "^server.port:"
+    replace: "server.port: {{ kibana::config::server_port }}"
+    owner: root
+    group : root
+    mode: 0644
+
+- name:  Patch kibana.yml for 'server.host'
+  replace:
+    path: "{{ kibana::config::configfile }}"
+    regexp: "^server.host:"
+    replace: "server.host: {{ ansible_default_ipv4.address }}"
+    owner: root
+    group : root
+    mode: 0644
+
+#- name:  Patch kibana.yml for 'elasticsearch.url'
+#  replace:
+#    path: "{{ kibana::config::configfile }}"
+#    regexp: "^elasticsearch.url:"
+#    replace: "elasticsearch.url: \"{{ elasticsearch_url }}\""
+#    owner: root
+#    group : root
+#    mode: 0644
+
+- name: Check Firewalld is installed or not
+  yum:
+    name: firewalld
+    state: present
+
+- name: Ensure Firewalld is running
+  service:
+    name: firewalld
+    state: started
+    enabled: yes
+
+- name: Add ports in firewall
+  command: "firewall-cmd --add-port={{ item }} --permanent"
+  loop: "{{ kibana::config::firewalld::ports }}"
+
+- name: Reload firewall
+  command: firewall-cmd --reload
+
+- name: Enable Kibana service
+  command: "{{ item }}"
+  with_items:
+    - systemctl daemon-reload
+    - systemctl enable kibana
+
+- name: Start Kibana Service
+  service:
+    name: kibana
+    state: restarted

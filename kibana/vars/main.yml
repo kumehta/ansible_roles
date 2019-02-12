@@ -1,32 +1,56 @@
 ---
 # vars file for kibana
 
-kibana_directories:
+linux::directories:
+  /usr/share:
+    owner:  '0'
+    group:  '0'
+    mode:   '0755'
+  /usr/share/kibana:
+    ensure: 'link'
+    owner:  '0'
+    group:  '0'
+    target: '/app/kibana'
   /app:
-    owner: root
-    group: root
-    mode: 0755
+    owner:  '0'
+    group:  '0'
+    mode:   '0755'
   /app/kibana:
-    owner: kibana
-    group: kibana
-    mode: 0711
-  /download:
-    owner: root
-    group: root
-    mode: 0755
+    owner:  'kibana'
+    group:  'kibana'
+    mode:   '2775'
 
-kibana_user:
-  - name: kibana
-    home: /app/kibana
-    group: kibana
-    uid: 4002
+linux::users:
+  'kibana':
+     home: '/app/kibana'
+     group: kibana
+     uid: 4002
 
-kibana_group:
-  - name: kibana
-    gid: 4001
+linux::groups:
+  'kibana':
+     state: present
+     gid: 4001
 
-kibana_packages_url:
-  -
-  -
+linux::packages:
+  'java-1.8.0-openjdk':
+    ensure: latest
+  'java-1.8.0-openjdk-devel':
+    ensure: latest
+  'java-1.8.0-openjdk-headless':
+    ensure: latest
+  'sudo':
+    ensure: latest
 
-kibana_config_file: /etc/kibana/kibana.yml
+kibana::packages:
+  'kibana':
+    ensure: latest
+
+kibana::config::owner:                     kibana
+kibana::config::group:                     kibana
+kibana::config::app_home:                  /app/kibana
+kibana::config::configfile:              /etc/kibana/kibana.yml
+kibana::config::server_port:               5601
+kibana::config::kibana_index:              .kibana
+kibana::config::elasticsearch_url:         "localhost:9200"
+kibana::config::firewalld::ports:
+  - '5601/tcp'
