@@ -4,4 +4,4 @@
   package:
     name: "{{ item.key }}"
     state: "{{ item.value.ensure }}"
-  with_dict: "{{ kibana::packages }}"
+  with_dict: "{{ kibana_packages }}"

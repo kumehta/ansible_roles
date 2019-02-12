@@ -7,5 +7,5 @@
 - name: Installing Kibana Package
   include_tasks: install.yml
 
-- name: Configure Kibana Installation
-  include_tasks: config.yml
+#- name: Configure Kibana Installation
+#  include_tasks: config.yml
