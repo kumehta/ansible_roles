@@ -1,18 +1,19 @@
 ---
 
-- name: Setup group 'kibana'
+- name: Setup Linux groups for Kibana Installation
   group:
-    name: {{ item.name }}
-    gid: {{ item.gid }}
-  loop: {{ kibana_group }}
+    state: "{{ item.key }}"
+    name: "{{ item.value.name }}"
+    gid: "{{ item.value.gid }}"
+  with_dict: "{{ linux::users }}"
 
-- name: Setup user 'kibana'
+- name: Setup Linux users for Kibana Installation
   user:
-    name: {{ item.name }}
-    home: {{ item.home }}
-    groups: {{ item.group }}
-    uid: {{ item.uid }}
-  loop: {{ kibana_user }}
+    name: "{{ item.key }}"
+    uid: "{{ item.value.uid }}"
+    group: "{{ item.value.group }}"
+    home: "{{ item.value.home }}"
+  with_dict: "{{ linux::users }}"
 
 - name: Setup Directories for Kibana Installation
   file:
@@ -21,4 +22,10 @@
     owner: "{{ item.value.owner }}"
     group: "{{ item.value.group }}"
     mode: "{{ item.value.mode }}"
-  with_dict: "{{ kibana_directories }}"  
+  with_dict: "{{ linux::directories }}"
+
+- name: Setup Linux Packages for Kibana Installation
+  package:
+    name: "{{ item.key }}"
+    state: "{{ item.value.ensure }}"
+  with_dict: "{{ linux::packages }}"

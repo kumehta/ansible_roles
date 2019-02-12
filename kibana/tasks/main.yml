@@ -3,3 +3,9 @@
 
 - name: Setup Directories and User/Group for Installation of kibana
   include_tasks: setup.yml
+
+- name: Installing Kibana Package
+  include_tasks: install.yml
+
+- name: Configure Kibana Installation
+  include_tasks: config.yml
