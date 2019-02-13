@@ -12,7 +12,7 @@
   replace:
     path: "{{ kibana::config::configfile }}"
     regexp: "^server.port:"
-    replace: "server.port: {{ kibana::config::server_port }}"
+    replace: "server.port: {{ kibana_config_server_port }}"
     owner: root
     group : root
     mode: 0644
