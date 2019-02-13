@@ -5,27 +5,42 @@ linux_users:
   'kibana':
      home: '/app/kibana'
      group: kibana
-     uid: 4005
+     uid: '4005'
 
 linux_groups:
   'kibana':
      state: present
-     gid: 4006
+     gid: '4006'
 
 linux_directories:
-  /usr/share:
-    owner:  '0'
-    group:  '0'
-    mode:   '0755'
   /app:
     owner:  '0'
     group:  '0'
     mode:   '0755'
+  /app/data:
+    owner: '0'
+    group: '0'
+    mode: '0755'
+  /app/data/kibana:
+    group: 'kibana'
+    owner: 'kibana'
+    mode: '2775'
   /app/kibana:
     owner:  'kibana'
     group:  'kibana'
     mode:   '2775'
-
+  /download:
+    owner: root
+    group: root
+    mode: '0755'
+  /etc/kibana:
+    owner:  'kibana'
+    group:  'kibana'
+    mode:   '0775'
+  /usr/share:
+    owner:  '0'
+    group:  '0'
+    mode:   '0755'
 
 linux_packages:
   'java-1.8.0-openjdk':
@@ -37,16 +52,14 @@ linux_packages:
   'sudo':
     ensure: latest
 
-kibana_packages:
-  'kibana':
-    ensure: latest
-
+kibana_config_data_dir:                  /app/data/kibana
 kibana_config_owner:                     kibana
 kibana_config_group:                     kibana
 kibana_config_app_home:                  /app/kibana
 kibana_config_configfile:                /etc/kibana/kibana.yml
-kibana_config_server_port:               5601
+kibana_config_server_port:               '5601'
 kibana_config_kibana_index:              .kibana
 kibana_config_elasticsearch_url:         "localhost:9200"
 kibana_config_firewalld_ports:
   - '5601/tcp'
+#kibana_download_dir:                     /download

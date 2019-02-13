@@ -35,6 +35,23 @@
 #    group : root
 #    mode: 0644
 
+- name: Copy /usr/share/kibana into /app/Kibana
+  command: mv /usr/share/kibana/* /app/kibana
+
+- name: Enable Kibana service
+  service:
+    name: Kibana
+    enabled: yes
+
+- name: Edit kibana.service file
+  replace:
+    path: /etc/systemd/system/kibana.service
+    regexp: "^ExecStart=/usr/share/kibana/bin/kibana "-c /etc/kibana/kibana.yml""
+    replace: "ExecStart=/app/kibana/bin/kibana "-c /etc/kibana/kibana.yml""
+    owner: root
+    group : root
+    mode: 0644
+
 - name: Check Firewalld is installed or not
   yum:
     name: firewalld
@@ -48,7 +65,7 @@
 
 - name: Add ports in firewall
   command: "firewall-cmd --add-port={{ item }} --permanent"
-  loop: "{{ kibana::config::firewalld::ports }}"
+  loop: "{{ kibana_config_firewalld_ports }}"
 
 - name: Reload firewall
   command: firewall-cmd --reload
