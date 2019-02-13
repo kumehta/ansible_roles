@@ -44,7 +44,7 @@ kibana_packages:
 kibana_config_owner:                     kibana
 kibana_config_group:                     kibana
 kibana_config_app_home:                  /app/kibana
-kibana_config_configfile:              /etc/kibana/kibana.yml
+kibana_config_configfile:                /etc/kibana/kibana.yml
 kibana_config_server_port:               5601
 kibana_config_kibana_index:              .kibana
 kibana_config_elasticsearch_url:         "localhost:9200"
