@@ -4,13 +4,13 @@
 linux_users:
   'kibana':
      home: '/app/kibana'
-     group: kibana
-     uid: '4005'
+     group: 'kibana'
+     uid:  '4005'
 
 linux_groups:
   'kibana':
-     state: present
-     gid: '4006'
+     state: 'present'
+     gid:  '4006'
 
 linux_directories:
   /app:
@@ -30,11 +30,11 @@ linux_directories:
     group:  'kibana'
     mode:   '2775'
   /download:
-    owner: root
-    group: root
+    owner: 'root'
+    group: 'root'
     mode: '0755'
   /etc/kibana:
-    owner:  'kibana'
+    owner: 'kibana'
     group:  'kibana'
     mode:   '0775'
   /usr/share:
@@ -57,7 +57,7 @@ kibana_config_owner:                     kibana
 kibana_config_group:                     kibana
 kibana_config_app_home:                  /app/kibana
 kibana_config_configfile:                /etc/kibana/kibana.yml
-kibana_config_server_port:               '5601'
+kibana_config_server_port:                5601
 kibana_config_kibana_index:              .kibana
 kibana_config_elasticsearch_url:         "localhost:9200"
 kibana_config_firewalld_ports:
