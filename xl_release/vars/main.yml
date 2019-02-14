@@ -25,7 +25,10 @@ linux_directories:
     owner:  'xlrelease'
     group:  'xlrelease'
     mode:   '2750'
-
+  /download:
+    owner: '0'
+    group: '0'
+    mode:  '0755'
 
 linux_packages:
   'java-1.8.0-openjdk':
@@ -37,15 +40,16 @@ linux_packages:
   'sudo':
     ensure: latest
 
-xlrelease_install_nexus_repo:              SOFTWARE-RHEL
-xlrelease_install_install_dir:             /app/xebialabs/xlrelease
-xlrelease_install_package:                 xl-release-8.0.2-server.zip
+xlrelease_install_nexus_url:               http://13.232.248.41/repository/
+xlrelease_install_nexus_repo:              SOFTWARE
+xlrelease_install_dir:                     /app/xebialabs/xlrelease
+xlrelease_download_dir:                    /download
+xlrelease_install_package:                 xl-release-8.5.0-server.zip
 xlrelease_install_drivers:
-  - postgresql-42.1.1.jar
+  - postgresql-42.2.5.jar
 xlrelease_install_plugins:
   - xlr-confluence-plugin-1.1.0.jar
-  - xlr-jira-extensions-plugin-1.2.3.jar
-  - xlr-kubernetes-plugin-6.1.0.jar
+  - xlr-jira-extensions-plugin-1.2.8.jar
 
 xlrelease_config_owner:                    xlrelease
 xlrelease_config_group:                    xlrelease

@@ -1,0 +1,16 @@
+---
+
+- name: Download XL-Release package
+  get_url:
+    url: "{{ xlrelease_install_nexus_url }}/{{ xlrelease_install_nexus_repo }}/{{ xlrelease_install_package }}"
+    dest: "{{ xlrelease_download_dir }}"
+    mode: '0644'
+
+- name: Unzip package in xl_release home directory
+  unarchive:
+    src: "/download/{{ xlrelease_install_package }}"
+    dest: "{{ xlrelease_install_dir }}"
+    group: "{{ xlrelease_config_group }}"
+    owner: "{{ xlrelease_config_owner }}"
+
+    
