@@ -1,2 +1,83 @@
 ---
 # vars file for logstash
+linux_groups:
+  'logstash':
+     state: 'present'
+     gid:  '4008'
+
+linux_users:
+  'logstash':
+     home: '/app/logstash'
+     group: 'logstash'
+     uid:  '4007'
+     gid: '4008'
+
+linux_directories:
+  /app:
+    owner:  '0'
+    group:  '0'
+    mode:   '0755'
+  /app/logstash:
+    owner:  'logstash'
+    group:  'logstash'
+    mode:   '2775'
+  /app/logstash/data:
+    owner:  'logstash'
+    group:  'logstash'
+    mode:   '2775'
+  /download:
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  /etc/logstash:
+    owner: 'logstash'
+    group:  'logstash'
+    mode:   '0775'
+  /etc/logstash/conf.d:
+    owner: 'logstash'
+    group:  'logstash'
+    mode:   '0775'
+  /usr/share:
+    owner:  '0'
+    group:  '0'
+    mode:   '0755'
+  /usr/share:
+    type: 'link'
+    owner:  '0'
+    group:  '0'
+    target: '/app/logstash'
+    mode:   '0755'
+  /var/log/:
+    owner:  '0'
+    group:  '0'
+    mode:   '0755'
+  /var/log/logstash:
+    owner:  'logstash'
+    group:  'logstash'
+    mode:   '2755'
+
+
+linux_packages:
+  'java-1.8.0-openjdk':
+    ensure: latest
+  'java-1.8.0-openjdk-devel':
+    ensure: latest
+  'java-1.8.0-openjdk-headless':
+    ensure: latest
+  'sudo':
+    ensure: latest
+
+logstash_config_owner:                    logstash
+logstash_config_group:                    logstash
+logstash_config_app_home:                 /app/logstash
+logstash_config_oppenssl_cnf:             /etc/pki/tls/openssl.cnf
+logstash_config_logstash_forwarder_key:   /etc/pki/tls/private/logstash-forwarder.key
+logstash_config_logstash_conf:            /etc/logstash/logstash.yml
+logstash_config_logstash_startup_options: /etc/logstash/startup.options
+logstash_config_logstash_default:         /etc/default/logstash
+logstash_config_logstash_forwarder_crt:   /etc/pki/tls/certs/logstash-forwarder.crt
+logstash_config_path_config:              /etc/logstash/conf.d
+logstash_config_path_data:                /app/logstash/data
+logstash_config_path_logs:                /app/logstash/log
+logstash_config_firewalld_add_ports:
+  - '5044/tcp'

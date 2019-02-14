@@ -1,2 +1,63 @@
 ---
 # vars file for xl_release
+linux_groups:
+  'xlrelease':
+     state: 'present'
+     gid:  '4008'
+
+linux_users:
+  'xlrelease':
+     home: '/app/xlrelease'
+     group: 'xlrelease'
+     uid:  '4007'
+     gid: '4008'
+
+linux_directories:
+  /app:
+    owner:  '0'
+    group:  '0'
+    mode:   '0755'
+  /app/xebialabs:
+    owner: 'xlrelease'
+    group: 'xlrelease'
+    mode: '2750'
+  /app/xebialabs/xlrelease:
+    owner:  'xlrelease'
+    group:  'xlrelease'
+    mode:   '2750'
+
+
+linux_packages:
+  'java-1.8.0-openjdk':
+    ensure: latest
+  'java-1.8.0-openjdk-devel':
+    ensure: latest
+  'java-1.8.0-openjdk-headless':
+    ensure: latest
+  'sudo':
+    ensure: latest
+
+xlrelease_install_nexus_repo:              SOFTWARE-RHEL
+xlrelease_install_install_dir:             /app/xebialabs/xlrelease
+xlrelease_install_package:                 xl-release-8.0.2-server.zip
+xlrelease_install_drivers:
+  - postgresql-42.1.1.jar
+xlrelease_install_plugins:
+  - xlr-confluence-plugin-1.1.0.jar
+  - xlr-jira-extensions-plugin-1.2.3.jar
+  - xlr-kubernetes-plugin-6.1.0.jar
+
+xlrelease_config_owner:                    xlrelease
+xlrelease_config_group:                    xlrelease
+#xlrelease_config_admin_passwd:             CUSTOM_FACT
+xlrelease_config_license:                  xl-release-license.lic
+xlrelease_config_db_host:
+xlrelease_config_db_port:
+xlrelease_config_db_xlrelease_name:        xlrelease
+#xlrelease_config_db_xlrelease_user:        CUSTOM_FACT
+#xlrelease_config_db_xlrelease_passwd:      CUSTOM_FACT
+xlrelease_config_db_xlarchive_name:        xlarchive
+#xlrelease_config_db_xlarchive_user:        CUSTOM_FACT
+#xlrelease_config_db_xlarchive_passwd:      CUSTOM_FACT
+xlrelease_config_firewalld_add_ports:
+  - '5516/tcp'
