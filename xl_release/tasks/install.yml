@@ -13,4 +13,32 @@
     group: "{{ xlrelease_config_group }}"
     owner: "{{ xlrelease_config_owner }}"
 
-    
+- name: Stop xl-release Server
+  command: "kill -9 \$(ps -fu ${owner} | grep -w java | awk '{print \$2}') >/dev/null 2>&1 ; exit 0"
+  when: "{{ xlrelease_install_dir }}/.exists"
+
+- name: Install application Drivers
+  get_url:
+    url: "{{ xlrelease_install_nexus_url }}/{{ xlrelease_install_nexus_repo}}/{{ item }}"
+    dest: "{{ xlrelease_install_dir }}/{{ xlrelease_install_package.split('.zip')[0] }}/lib/"
+    mode: '0640'
+  loop: {{ xlrelease_install_drivers }}
+
+- name: Install application Plugins
+  get_url:
+    url: "{{ xlrelease_install_nexus_url }}/{{ xlrelease_install_nexus_repo}}/{{ item }}"
+    dest: "{{ xlrelease_install_dir }}/{{ xlrelease_install_package.split('.zip')[0] }}/plugins"
+    mode: '0640'
+  loop: {{ xlrelease_install_plugins }}
+
+- name: Reset application code file permission
+  file:
+    dest: "{{ xlrelease_install_dir }}/{{ xlrelease_install_package.split('.zip')[0] }}"
+    owner: "{{ xlrelease_config_owner }}"
+    group: "{{ xlrelease_config_group }}"
+    recurse: yes
+
+- name: Delete application zip package
+  file:
+    dest: "{{ xlrelease_download_dir }}/{{xlrelease_install_package }}"
+    state: absent
