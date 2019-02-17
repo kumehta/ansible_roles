@@ -1,5 +1,6 @@
 ---
 # vars file for xl_release
+
 linux_groups:
   'xlrelease':
      state: 'present'
