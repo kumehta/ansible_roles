@@ -1,8 +1,8 @@
 # -----------------------------------------------------------------------------
 # Author  = Kunal Mehta.
 # Date    = 2019/02/18
-# Version = 1.0 'xlrelease/install.yml'
-# Purpose = This is 'xlrelease/install' configuration file.
+# Version = 1.0 'xlrelease/config.yml'
+# Purpose = This is 'xlrelease/config' configuration file.
 ---
 #config file for xl_release
 - name: Install application license
