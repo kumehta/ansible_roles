@@ -1,3 +1,73 @@
+# -----------------------------------------------------------------------------
+# Author  = Kunal Mehta.
+# Date    = 2019/02/18
+# Version = 1.0 'xlrelease/install.yml'
+# Purpose = This is 'xlrelease/install' configuration file.
 ---
 #config file for xl_release
+- name: Install application license
+  copy:
+    path: "{{ xlrelease_install_dir }}/{{ xlrelease_install_package.split('.zip')[0] }}/conf/xl-release-license.lic"
+    owner: "{{ xlrelease_config_owner}}"
+    group: "{{ xlrelease_config_group }}"
+    mode: "0640"
+    src: "{{ role_path }}/files/xl-release-license.lic"
 
+#- name: Remove the initial 'xl-release.conf' file.
+#  command: "rm -rf {{ xlrelease_install_dir }}/{{ xlrelease_install_package.split('.zip')[0] }}/conf/xl-release.conf"
+#  when: "{{ xlrelease_install_dir }}/{{ xlrelease_install_package.split('.zip')[0] }}/conf/xl-release.conf".exists
+
+#- name: Deplot xl-release.conf
+#  template:
+#    src: xl-release.conf.j2
+#    dest: "{{ xlrelease_install_dir }}/{{ xlrelease_install_package.split('.zip')[0] }}/conf/"
+#    owner: "{{ xlrelease_config_owner }}"
+#    group: "{{ xlrelease_config_group }}"
+#    mode: "0600"
+
+#- name: Deplot xl-release-deployit.conf
+#  template:
+#    src: xl-release-deployit.conf.j2
+#    dest: "{{ xlrelease_install_dir }}/{{ xlrelease_install_package.split('.zip')[0] }}/conf/"
+#    mode: "0600"
+#    owner: "{{ xlrelease_config_owner }}"
+#    group: "{{ xlrelease_config_group }}"
+
+- name: Run the 'run.sh' initial setup script.
+  command: "{{ xlrelease_install_dir }}/{{ xlrelease_install_package.split('.zip')[0] }}/bin/run.sh -setup -reinitialize -force -setup-defaults {{ xlrelease_install_dir }}/{{ xlrelease_install_package.split('.zip')[0] }}/conf/xl-release-deployit.conf"
+
+- name: Run the 'install-service.sh' initial setup script
+  command: "{{ xlrelease_install_dir }}/{{ xlrelease_install_package.split('.zip')[0] }}/bin/install-service.sh && systemctl daemon-reload"
+
+- name: Check Firewalld is installed or not
+  yum:
+    name: firewalld
+    state: present
+
+- name: Ensure Firewalld is running
+  service:
+    name: firewalld
+    state: started
+    enabled: yes
+
+- name: Add ports in firewall
+  command: "firewall-cmd --add-port={{ item }} --permanent"
+  loop: "{{ xlrelease_config_firewalld_add_ports }}"
+
+- name: Reload firewall
+  command: firewall-cmd --reload
+
+- name: Enable xl-release service
+  command: "{{ item }}"
+  with_items:
+    - systemctl daemon-reload
+    - systemctl enable xl-release
+
+- name: Start xl-release Service
+  service:
+    name: xl-release
+    state: restarted
+
+# -----------------------------------------------------------------------------
+# End of file.
+# -----------------------------------------------------------------------------

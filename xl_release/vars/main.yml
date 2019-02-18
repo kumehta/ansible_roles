@@ -55,13 +55,13 @@ xlrelease_install_plugins:
 xlrelease_config_owner:                    xlrelease
 xlrelease_config_group:                    xlrelease
 #xlrelease_config_admin_passwd:             CUSTOM_FACT
-xlrelease_config_license:                  xl-release-license.lic
-xlrelease_config_db_host:
-xlrelease_config_db_port:
-xlrelease_config_db_xlrelease_name:        xlrelease
+#xlrelease_config_license:                  xl-release-license.lic
+#xlrelease_config_db_host:
+#xlrelease_config_db_port:
+#xlrelease_config_db_xlrelease_name:        xlrelease
 #xlrelease_config_db_xlrelease_user:        CUSTOM_FACT
 #xlrelease_config_db_xlrelease_passwd:      CUSTOM_FACT
-xlrelease_config_db_xlarchive_name:        xlarchive
+#xlrelease_config_db_xlarchive_name:        xlarchive
 #xlrelease_config_db_xlarchive_user:        CUSTOM_FACT
 #xlrelease_config_db_xlarchive_passwd:      CUSTOM_FACT
 xlrelease_config_firewalld_add_ports:
