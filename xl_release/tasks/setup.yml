@@ -1,13 +1,13 @@
 ---
 
-- name: Setup Linux groups for Kibana Installation
+- name: Setup Linux groups for xl_release Installation
   group:
     state: "{{ item.value.state }}"
     name: "{{ item.key }}"
     gid: "{{ item.value.gid }}"
   with_dict: "{{ linux_groups }}"
 
-- name: Setup Linux users for Kibana Installation
+- name: Setup Linux users for xl_release Installation
   user:
     name: "{{ item.key }}"
     uid: "{{ item.value.uid }}"
@@ -15,7 +15,7 @@
     home: "{{ item.value.home }}"
   with_dict: "{{ linux_users }}"
 
-- name: Setup Directories for Kibana Installation
+- name: Setup Directories for xl_release Installation
   file:
     state: directory
     path: "{{ item.key }}"
@@ -24,7 +24,7 @@
     mode: "{{ item.value.mode }}"
   with_dict: "{{ linux_directories }}"
 
-- name: Setup Linux Packages for Kibana Installation
+- name: Setup Linux Packages for xl_release Installation
   package:
     name: "{{ item.key }}"
     state: "{{ item.value.ensure }}"

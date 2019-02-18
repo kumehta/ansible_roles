@@ -7,7 +7,7 @@
 #config file for xl_release
 - name: Install application license
   copy:
-    path: "{{ xlrelease_install_dir }}/{{ xlrelease_install_package.split('.zip')[0] }}/conf/xl-release-license.lic"
+    dest: "{{ xlrelease_install_dir }}/{{ xlrelease_install_package.split('.zip')[0] }}/conf/"
     owner: "{{ xlrelease_config_owner}}"
     group: "{{ xlrelease_config_group }}"
     mode: "0640"
@@ -25,19 +25,19 @@
 #    group: "{{ xlrelease_config_group }}"
 #    mode: "0600"
 
-#- name: Deplot xl-release-deployit.conf
-#  template:
-#    src: xl-release-deployit.conf.j2
-#    dest: "{{ xlrelease_install_dir }}/{{ xlrelease_install_package.split('.zip')[0] }}/conf/"
-#    mode: "0600"
-#    owner: "{{ xlrelease_config_owner }}"
-#    group: "{{ xlrelease_config_group }}"
+- name: Deplot xl-release-deployit.conf
+  template:
+    src: xl-release-deployit.conf.j2
+    dest: "{{ xlrelease_install_dir }}/{{ xlrelease_install_package.split('.zip')[0] }}/conf/xl-release-deployit.conf"
+    mode: "0600"
+    owner: "{{ xlrelease_config_owner }}"
+    group: "{{ xlrelease_config_group }}"
 
 - name: Run the 'run.sh' initial setup script.
   command: "{{ xlrelease_install_dir }}/{{ xlrelease_install_package.split('.zip')[0] }}/bin/run.sh -setup -reinitialize -force -setup-defaults {{ xlrelease_install_dir }}/{{ xlrelease_install_package.split('.zip')[0] }}/conf/xl-release-deployit.conf"
 
-- name: Run the 'install-service.sh' initial setup script
-  command: "{{ xlrelease_install_dir }}/{{ xlrelease_install_package.split('.zip')[0] }}/bin/install-service.sh && systemctl daemon-reload"
+#- name: Run the 'install-service.sh' initial setup script
+#  command: "{{ xlrelease_install_dir }}/{{ xlrelease_install_package.split('.zip')[0] }}/bin/install-service.sh && systemctl daemon-reload"
 
 - name: Check Firewalld is installed or not
   yum:

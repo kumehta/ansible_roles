@@ -1,6 +1,8 @@
 ---
 # tasks file for xl_release
-
+- name: Include var file
+  include_vars: info.yml
+ 
 - name: Setup Directories and User/Group for Installation of xl-release
   include_tasks: setup.yml
 

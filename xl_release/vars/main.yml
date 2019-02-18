@@ -40,8 +40,14 @@ linux_packages:
     ensure: latest
   'sudo':
     ensure: latest
+  'unzip':
+    ensure: latest
+  'tar':
+    ensure: latest
+  'wget':
+    ensure: latest
 
-xlrelease_install_nexus_url:               http://13.232.248.41/repository/
+xlrelease_install_nexus_url:               http://13.232.248.41:8081/repository/
 xlrelease_install_nexus_repo:              SOFTWARE
 xlrelease_install_dir:                     /app/xebialabs/xlrelease
 xlrelease_download_dir:                    /download
