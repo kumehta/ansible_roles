@@ -1,0 +1,7 @@
+---
+
+- name: Install Postgres packages
+  package:
+    name: "{{ item }}"
+    state: "present"
+  loop: "{{ postgres_install_package }}"

@@ -1,2 +1,72 @@
 ---
 # vars file for postgres
+
+linux_groups:
+  'postgres':
+    ensure: 'present'
+    gid:    '26'
+
+
+linux_users:
+  'postgres':
+    ensure:           'present'
+    uid:              '26'
+    gid:              '26'
+    groups:           ['postgres']
+    shell:            '/bin/bash'
+    home:             '/app/pgsql'
+    managehome:       true
+    password_max_age: '-1'
+    password_min_age: '-1'
+    password:         '!'
+
+linux_directories:
+  /app:
+    owner:  '0'
+    group:  '0'
+    mode:   '0755'
+  /app/pgsql:
+    owner:  'postgres'
+    group:  'postgres'
+    mode:   '0700'
+
+
+linux_redhat_packages:
+  'java-1.8.0-openjdk':
+    ensure: latest
+  'java-1.8.0-openjdk-devel':
+    ensure: latest
+  'java-1.8.0-openjdk-headless':
+    ensure: latest
+  'rsync':
+    ensure: latest
+  'sudo':
+    ensure: latest
+  'wget':
+    ensure: latest
+  'unzip':
+    ensure: latest
+
+postgres_install_package:
+  - postgresql-server:9.5.9
+  - postgresql-libs:9.5.9
+  - postgresql:9.5.9
+  - postgresql-contrib:9.5.9
+
+postgres_config_owner:                    postgres
+postgres_config_group:                    postgres
+postgres_config_dbhome:                   /app/pgsql
+postgres_config_dbhost:
+postgres_config_dbport:                   5432
+#postgres_config_dbs:
+#  xlrelease:
+#    username:    xlrelease
+#    password:    *********
+#    access_host: [10.105.45.134]
+#  xlarchive:
+#    username:    xlarchive
+#    password:    *********
+#    access_host: [10.105.45.134]
+
+postgres_config_firewalld_add_ports:
+  - '5432/tcp'

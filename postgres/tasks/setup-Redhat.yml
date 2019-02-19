@@ -1,0 +1,31 @@
+---
+
+- name: Setup Linux groups for postgres Installation
+  group:
+    state: "{{ item.value.state }}"
+    name: "{{ item.key }}"
+    gid: "{{ item.value.gid }}"
+  with_dict: "{{ linux_groups }}"
+
+- name: Setup Linux users for postgres Installation
+  user:
+    name: "{{ item.key }}"
+    uid: "{{ item.value.uid }}"
+    group: "{{ item.value.group }}"
+    home: "{{ item.value.home }}"
+  with_dict: "{{ linux_users }}"
+
+- name: Setup Directories for postgres Installation
+  file:
+    state: directory
+    path: "{{ item.key }}"
+    owner: "{{ item.value.owner }}"
+    group: "{{ item.value.group }}"
+    mode: "{{ item.value.mode }}"
+  with_dict: "{{ linux_directories }}"
+
+- name: Setup Linux Packages for postgres Installation
+  package:
+    name: "{{ item.key }}"
+    state: "{{ item.value.ensure }}"
+  with_dict: "{{ linux_packages }}"

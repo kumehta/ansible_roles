@@ -1,0 +1,50 @@
+---
+
+- name: Set linux user account password for 'postgres' user
+  command: "echo '{{ postgres_config_owner }}:{{postgres_config_owner_password }}' | chpasswd"
+
+- name: Initialise the database
+  command: "postgresql-setup initdb"
+
+- name: Move datbase location
+  command: "rsync -av /var/lib/pgsql/ {{ postgres_config_dbhome }} && rm -fr /var/lib/pgsql/"
+
+- name: Ensure database configuration file present
+  file:
+    path: "{{ postgres_config_dbhome }}/data/postgresql.conf"
+    state: "present"
+    mode: "0600"
+    owner: "{{ postgres_config_owner }}"
+    group: "{{ postgres_config_group }}"
+
+- name: patch configuration file
+  lineinfile:
+    path: "{{ postgres_config_dbhome}}/data/postgresql.conf"
+    regexp: "data.directory ="
+    line: "data.directory = '{{ postgres_config_dbhome}}/data'"
+
+- name: patch configuration file
+  lineinfile:
+    path: "{{ postgres_config_dbhome}}/data/postgresql.conf"
+    regexp: "hba_file ="
+    line: "hba_file = '{{ postgres_config_dbhome}}/data/pg_hba.conf'"
+
+- name: patch configuration file
+  lineinfile:
+    path: "{{ postgres_config_dbhome}}/data/postgresql.conf"
+    regexp: "indent_file ="
+    line: "indent_file = '{{ postgres_config_dbhome}}/data/pg_indent.conf'"
+
+- name: patch configuration file
+  lineinfile:
+    path: "{{ postgres_config_dbhome}}/data/postgresql.conf"
+    regexp: "listen_addresses ="
+    line: "listen_addresses = {{ postgres_config_dbhost }}"
+
+- name: patch configuration file
+  lineinfile:
+    path: "{{ postgres_config_dbhome}}/data/postgresql.conf"
+    regexp: "port ="
+    line: "port = {{ postgres_config_dbport }}"
+
+    
