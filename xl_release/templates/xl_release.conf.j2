@@ -1,0 +1,14 @@
+xl {
+    database {
+        db-driver-classname="org.postgresql.Driver"
+        db-password="{{ xlrelease_config_db_xlrelease_passwd }}"
+        db-url="jdbc:postgresql://{{ xlrelease_config_db_host }}:{{ xlrelease_config_db_port }}/{{ xlrelease_config_db_xlrelease_name }}"
+        db-username="{{ xlrelease_config_db_xlrelease_user }}"
+    }
+    reporting {
+        db-driver-classname="org.postgresql.Driver"
+        db-password="{{ xlrelease_config_db_xlarchive_passwd }}"
+        db-url="jdbc:postgresql://{{ xlrelease_config_db_host }}:{{ xlrelease_config_db_port }}/{{ xlrelease_config_db_xlarchive_name }}"
+        db-username="{{ xlrelease_config_db_xlarchive_user }}"
+    }
+}
