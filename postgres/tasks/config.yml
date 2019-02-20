@@ -47,4 +47,48 @@
     regexp: "port ="
     line: "port = {{ postgres_config_dbport }}"
 
-    
+- name: Ensure database configuration file present 'pg_hba'
+  file:
+    path: "{{ postgres_config_dbhome }}/data/pg_hba.conf"
+    state: "present"
+    mode: "0600"
+    owner: "{{ postgres_config_owner }}"
+    group: "{{ postgres_config_group }}"
+
+- name: patch configuration file
+  lineinfile:
+    path: "{{ postgres_config_dbhome}}/data/pg_hba.conf"
+    regexp: "local[\s\t]+all[\s\t]+all"
+    line: "local\tall\t\tall\t\t\t\t\ttrust"
+
+- name: patch configuration file
+  lineinfile:
+    path: "{{ postgres_config_dbhome}}/data/pg_hba.conf"
+    regexp: "host[\s\t]+all[\s\t]+all[\s\t]+127.0.0.1/32"
+    line: "host\tall\t\tall\t\t127.0.0.1/32\t\ttrust"
+
+- name: patch configuration file
+  lineinfile:
+    path: "{{ postgres_config_dbhome}}/data/pg_hba.conf"
+    regexp: "host[\s\t]+all[\s\t]+all[\s\t]+::1/128"
+    line: "host\tall\t\tall\t\t::1/128\t\t\ttrust"
+
+- name: Ensure database configuration file present 'pg_ident'
+  file:
+    path: "{{ postgres_config_dbhome }}/data/pg_ident.conf"
+    state: "present"
+    mode: "0600"
+    owner: "{{ postgres_config_owner }}"
+    group: "{{ postgres_config_group }}"
+
+- name: Ensure postgresql.service file present
+  file:
+    path: "/usr/lib/systemd/system/postgresql.service"
+    state: "present"
+    mode: "0644"
+
+- name: patch Service file
+  lineinfile:
+    path: "/usr/lib/systemd/system/postgresql.service"
+    regexp: "Environment=PGDATA"
+    line: "Environment=PGDATA={{ postgres_config_dbhome }}/data""
