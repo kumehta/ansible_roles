@@ -58,15 +58,6 @@ postgres_config_group:                    postgres
 postgres_config_dbhome:                   /app/pgsql
 postgres_config_dbhost:
 postgres_config_dbport:                   5432
-#postgres_config_dbs:
-#  xlrelease:
-#    username:    xlrelease
-#    password:    *********
-#    access_host: [10.105.45.134]
-#  xlarchive:
-#    username:    xlarchive
-#    password:    *********
-#    access_host: [10.105.45.134]
 
 postgres_config_firewalld_add_ports:
   - '5432/tcp'
